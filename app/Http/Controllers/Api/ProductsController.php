@@ -71,7 +71,7 @@ class ProductsController extends Controller
 
         if($pro){
 
-            $products_array = array('products'=> $pro);
+            $products_array = array('product'=> $pro);
             return $products_array;
         }
         else{
@@ -111,10 +111,13 @@ class ProductsController extends Controller
             $del =  ProductModel::where('id',$id)->delete();
 
             if($del){
-                return 'successfully';
+                return(['message'=>'successfully','product'=>null]);
+
             }
             else{
-                return 'unsuccessfully';
+
+                return(['message'=>'unsuccessfully','product'=>null]);
+
             }
 
         } catch (\Exception $th) {

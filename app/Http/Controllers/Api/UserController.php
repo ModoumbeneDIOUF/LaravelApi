@@ -12,20 +12,24 @@ use DB;
 class UserController extends Controller
 {
     public function login(Request $request){
+
+
         try{
             $utilisateur = User::where(array('password'=>$request->password,'email'=>$request->email))->first();
             if(isset($utilisateur)){
-                 return 'succefully';
-                 //  return(['message'=>'succefully','user'=>$utilisateur]);
-                //  return Response::json(['message'=>'succefully','user'=>$utilisateur]);
+
+                  return(['message'=>'succefully','user'=>$utilisateur]);
+
 
            }
            else{
-               return 'unsuccefully';
+
+               return(['message'=>'unsuccefully','user'=>null]);
+
            }
 
            }catch (\Exception $th) {
-            return 'unsuccefully';
+             return 'unsuccefully';
 
             }
     }
@@ -33,12 +37,16 @@ class UserController extends Controller
 
 
     public function register(Request $request){
+
+
+        // error_log($request);
         $email = $request->email;
         $result = DB::table('users')
                     ->where('email',$email)
                     ->first();
         if(isset($result)){
-            return 'unsuccefully';
+
+            return(['message'=>'already','user'=>null]);
         }
         else {
             try {
@@ -52,10 +60,11 @@ class UserController extends Controller
                 $user->password = $request->password;
 
                 $user->save();
-                return 'succefully';
+                return(['message'=>'succefully','user'=>$user]);
             } catch (\Exception $th) {
 
-                return 'unsuccefully';
+                return(['message'=>'unsuccefully','user'=>null]);
+
             }
         }
 

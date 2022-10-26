@@ -10,12 +10,12 @@ use DB;
 class CategoriesController extends Controller
 {
     public function addCategory(Request $request){
-        $libelle = $request->libelle;
+        $libelle = $request->categoryName;
         $result = DB::table('categories')
         ->where('libelle',$libelle)
         ->first();
         if(isset($result)){
-            return 'unsuccessfully';
+            return(['message'=>'already','category'=>null]);
         }
         else{
             try {
@@ -23,11 +23,11 @@ class CategoriesController extends Controller
                 $cat->libelle = $libelle;
 
                 $cat->save();
-                return 'successfully';
+                return(['message'=>'successfully','category'=>$cat]);
                 //code...
             } catch (\Exception $th) {
                 //throw $th;
-                return 'unsuccessfully';
+                return(['message'=>'unsuccessfully','category'=>null]);
             }
         }
 
